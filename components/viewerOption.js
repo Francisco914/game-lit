@@ -3,7 +3,6 @@ import {LitElement, html} from 'lit-element';
 class viewerOption extends LitElement {
     static get properties() {
         return {
-
             random:{
                 type: Boolean,
             },
@@ -29,16 +28,12 @@ class viewerOption extends LitElement {
 
     constructor() {
         super();
-        this.random = true;
+        this.random = false;
         this.playerName = this.random? 'Computer' : 'Human';
         this.imageView = ['lagarto.png','papel.png','piedra.png','spock.png','tijeras.png'];
         this.pathImage = './images/';
         this.selectImage = 0;
         this.loopImage();
-    }
-
-    connectedCallback(){
-        super.connectedCallback();
     }
 
     render() {
@@ -59,20 +54,18 @@ class viewerOption extends LitElement {
         `
     }
 
-    randomImage() {
+    timer() {
         return new Promise(resolve => {
             setTimeout(() => {
-                resolve(Math.floor(Math.random() * (this.imageView.length - 0)) + 0);
-            },1000)
+                resolve();
+            },50)
         });
     }
 
     async loopImage() {
-        console.info("llamado")
-        while(this.random){
-            const randomNumber = await this.randomImage();
-            console.info("Hola");
-            console.info(randomNumber);
+        while(this.random) {
+            await this.timer();
+            this.selectImage=Math.floor(Math.random() * (this.imageView.length - 0)) + 0;
         }
     }
 }
