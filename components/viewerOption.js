@@ -3,11 +3,12 @@ import {LitElement, html} from 'lit-element';
 class viewerOption extends LitElement {
     static get properties() {
         return {
-            random:{
+
+            randomDisabled:{
                 type: Boolean,
             },
 
-            playerType:{
+            playerName:{
                 type: String,
             },
 
@@ -28,8 +29,8 @@ class viewerOption extends LitElement {
 
     constructor() {
         super();
-        this.random = false;
-        this.playerName = this.random? 'Computer' : 'Human';
+        this.randomDisabled = false;
+        this.playerName = "Computer";
         this.imageView = ['lagarto.png','papel.png','piedra.png','spock.png','tijeras.png'];
         this.pathImage = './images/';
         this.selectImage = 0;
@@ -38,7 +39,7 @@ class viewerOption extends LitElement {
 
     render() {
         return html `
-            ${this.random?
+            ${this.randomDisabled?
                 html `
                 <div>
                     <img src="${this.pathImage}${this.imageView[this.selectImage]}">
@@ -63,7 +64,8 @@ class viewerOption extends LitElement {
     }
 
     async loopImage() {
-        while(this.random) {
+        console.info(this.randomDisabled)
+        while(!this.randomDisabled) {
             await this.timer();
             this.selectImage=Math.floor(Math.random() * (this.imageView.length - 0)) + 0;
         }

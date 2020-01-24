@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script type="module" src="components/statusBar.js"></script>
     <script type="module" src="components/viewerOption.js"></script>
+    <script type="module" src="components/buttonOptions.js"></script>
 
     <title>Juego</title>
 </head>
@@ -14,9 +15,18 @@
        <status-bar></status-bar>
    </header>
    <section>
-       <viewer-option random></viewer-option>
-       <viewer-option></viewer-option>
+        <viewer-option></viewer-option>
+        <viewer-option
+            playername="Human"
+            randomdisabled>
+        </viewer-option>
    </section>
-   <footer>Botones</footer>
+   <footer>
+       <button-options image="piedra.png"></button-options>
+       <button-options image="papel.png"></button-options>
+       <button-options image="tijeras.png"></button-options>
+       <button-options image="lagarto.png"></button-options>
+       <button-options image="spock.png"></button-options>
+   </footer>
 </body>
 </html>

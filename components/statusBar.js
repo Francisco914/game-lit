@@ -13,7 +13,7 @@ class StatusBar extends LitElement{
         }
     }
 
-    constructor(){
+    constructor() {
         super();
         this.scoreHuman = 0;
         this.scoreComputer = 0;
