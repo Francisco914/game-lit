@@ -1,6 +1,16 @@
-import {LitElement, html} from 'lit-element';
+import {LitElement, html, css} from 'lit-element';
 
 class viewerOption extends LitElement {
+    static get styles() {
+        return css `
+            p{
+                color: white;
+                font-family: Arial;
+                text-align: center;
+            }
+        `
+    }
+
     static get properties() {
         return {
 
@@ -31,7 +41,7 @@ class viewerOption extends LitElement {
         super();
         this.randomDisabled = false;
         this.playerName = "Computer";
-        this.imageView = ['lagarto.png','papel.png','piedra.png','spock.png','tijeras.png'];
+        this.imageView = ['lagarto'];
         this.pathImage = './images/';
         this.selectImage = 0;
         this.loopImage();
@@ -42,13 +52,13 @@ class viewerOption extends LitElement {
             ${this.randomDisabled?
                 html `
                 <div>
-                    <img src="${this.pathImage}${this.imageView[this.selectImage]}">
+                    <img src="${this.pathImage}${this.imageView[this.selectImage]}.png">
                     <p>${this.playerName}</p>
                 </div>` :
 
                 html `
                 <div>
-                    <img src="${this.pathImage}${this.imageView[this.selectImage]}">
+                    <img src="${this.pathImage}${this.imageView[this.selectImage]}.png">
                     <p>${this.playerName}</p>
                 </div>`
             }

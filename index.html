@@ -5,28 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script type="module" src="components/statusBar.js"></script>
-    <script type="module" src="components/viewerOption.js"></script>
     <script type="module" src="components/buttonOptions.js"></script>
-
+    <script type="module" src="components/battleField.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Bangers&display=swap" rel="stylesheet"> 
     <title>Juego</title>
 </head>
 <body>
-   <header>
-       <status-bar></status-bar>
-   </header>
    <section>
-        <viewer-option></viewer-option>
-        <viewer-option
-            playername="Human"
-            randomdisabled>
-        </viewer-option>
+       <battle-field></battle-field>
    </section>
-   <footer>
-       <button-options image="piedra.png"></button-options>
-       <button-options image="papel.png"></button-options>
-       <button-options image="tijeras.png"></button-options>
-       <button-options image="lagarto.png"></button-options>
-       <button-options image="spock.png"></button-options>
-   </footer>
 </body>
 </html>

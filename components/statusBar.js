@@ -1,6 +1,22 @@
-import {LitElement, html, customElement} from 'lit-element';
+import {LitElement, html, css} from 'lit-element';
 
 class StatusBar extends LitElement{
+    static get styles(){
+        return css `
+            div{
+                display:grid;
+                grid-template-columns: 50% auto;
+            }
+
+            p{
+                font-size: 22px;
+                font-family: 'Bangers', cursive;
+                justify-self: center;
+                align-self: center;
+            }
+        `
+    }
+
     static get properties() {
         return {
             scoreHuman:{
@@ -22,8 +38,8 @@ class StatusBar extends LitElement{
     render() {
         return html `
             <div> 
-                <p>Computer: ${this.scoreComputer}</p>
                 <p>Human: ${this.scoreHuman}</p>
+                <p>Computer: ${this.scoreComputer}</p>
             </div>
         `
     }
