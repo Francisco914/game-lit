@@ -61,33 +61,40 @@ class battleField extends LitElement {
     constructor() {
         super();
         this.players = {
+
             one: {
-                name: 'Human',
+                name: 'Paco',
+                response: '',
+                score: 0,
                 randomDisabled: true,
             },
 
             two: {
                 name: 'Computer',
+                response: '',
+                score: 0,
                 randomDisabled: false
             }
         }
+
         this.images = ["piedra", "papel", "tijeras", "lagarto", "spock"]
     }
 
-    render(){
+    render() {
         return html `
         <div>
             <status-bar></status-bar>
         </div>
         <div class="board">
             <viewer-option 
-                ?randomdisabled="${this.players.one.randomDisabled}"
-                playername="${this.players.one.name}">
+                playername=${this.players.one.name}
+                selectimage=${this.players.one.response}
+                ?randomdisabled=${this.players.one.randomDisabled}>
             </viewer-option>
             <img src="./images/vs.png" alt="">
             <viewer-option
-                ?randomdisabled="${this.players.two.randomDisabled}"
-                playername="${this.players.two.name}">
+                playername=${this.players.two.name}
+                ?randomdisabled=${this.players.two.randomDisabled}>
             </viewer-option>
         </div>
         <div class="controls">
@@ -101,8 +108,46 @@ class battleField extends LitElement {
     }
 
     getOption(ev){
+        debugger
         console.info('getOption',ev);
-        this.players.two.randomDisabled = true;
+        let selectImage = this.convertResponse(ev.detail);
+
+        this.players = {
+
+            one: {
+                name: 'Paco',
+                response: selectImage,
+                score: 0,
+                randomDisabled: true,
+            },
+
+            two: {
+                name: 'Computer',
+                response: '',
+                score: 0,
+                randomDisabled: true
+            }
+        }
+    }
+
+    convertResponse(response) {
+        switch(response) {
+            case 'piedra':
+                return 0;
+                break;
+            case 'papel':
+                return 1;
+                break;
+            case 'tijeras':
+                return 2;
+                break;
+            case 'lagarto':
+                return 3;
+                break;
+            case 'spock':
+                return 4;
+                break;
+        }
     }
     
 }

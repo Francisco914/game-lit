@@ -35,7 +35,7 @@ class ButtonOptions extends LitElement{
     }
 
     selectOption(ev) {
-        this.dispatchEvent(new CustomEvent('button-option-event',{ detail: ev.originalTarget.id}));
+        this.dispatchEvent(new CustomEvent('button-option-event',{ detail: ev.currentTarget.id}));
     }
 }
 

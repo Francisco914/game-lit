@@ -14,12 +14,12 @@ class viewerOption extends LitElement {
     static get properties() {
         return {
 
-            randomDisabled:{
-                type: Boolean,
+            playerName: {
+                type: String,
             },
 
-            playerName:{
-                type: String,
+            randomDisabled: {
+                type: Boolean,
             },
 
             imageView:{
@@ -39,13 +39,15 @@ class viewerOption extends LitElement {
 
     constructor() {
         super();
-        this.randomDisabled = false;
         this.playerName = "Computer";
-        this.imageView = ['lagarto'];
+        this.randomDisabled = false;
+        this.response = "piedra"
+        this.imageView = ["piedra", "papel", "tijeras", "lagarto", "spock"];
         this.pathImage = './images/';
         this.selectImage = 0;
         this.loopImage();
     }
+
 
     render() {
         return html `
