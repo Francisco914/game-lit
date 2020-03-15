@@ -1,7 +1,7 @@
 import {LitElement, html, css} from 'lit-element';
 
 class StatusBar extends LitElement{
-    static get styles(){
+    static get styles() {
         return css `
             div{
                 display:grid;

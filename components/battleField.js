@@ -2,6 +2,7 @@ import {LitElement, html, css} from 'lit-element';
 import './viewerOption.js'
 import './buttonOptions.js'
 import './statusBar.js'
+import './messageModal.js'
 
 class battleField extends LitElement {
     static get styles() {
@@ -34,100 +35,126 @@ class battleField extends LitElement {
                 grid-column-end: 7;
             }
 
-            .button-0:hover,
-            .button-1:hover,
-            .button-2:hover,
-            .button-3:hover,
-            .button-4:hover {
-                box-shadow: 0 4px 16px rgba(49, 138, 172, 1);
-                transition: all 0.2s ease;
-            }
-
-
         `
     }
     
     static get properties() {
         return {
-            players: {
-                type: Object,
+            playerOneName: {
+                type: String,
+            },
+            playerOneImage: {
+                type: Number,
+            },
+            playerOneScore: {
+                type: Number,
+            },
+            playerOneRandomDisabled:{
+                type: Boolean,
+            },
+            playerTwoName: {
+                type: String,
+            },
+            playerTwoImage: {
+                type: Number,
+            },
+            playerTwoScore: {
+                type: Number,
+            },
+            playerTwoRandomDisabled: {
+                type: Boolean,
             },
             images: {
                 type: Array,
+            },
+            openModal:{
+                type: Boolean,
+            },
+            winner:{
+                type: Boolean,
             }
         }
     }
 
     constructor() {
         super();
-        this.players = {
+        this.playerOneName = 'Paco'
+        this.playerOneImage = 0
+        this.playerOneScore = 0
+        this.playerOneRandomDisabled = true
 
-            one: {
-                name: 'Paco',
-                response: '',
-                score: 0,
-                randomDisabled: true,
-            },
+        this.playerTwoName = 'Computer'
+        this.playerTwoImage = 0
+        this.playerTwoScore = 0
+        this.playerTwoRandomDisabled = false
 
-            two: {
-                name: 'Computer',
-                response: '',
-                score: 0,
-                randomDisabled: false
-            }
-        }
 
         this.images = ["piedra", "papel", "tijeras", "lagarto", "spock"]
+
+        this.openModal = false
+        this.winner = false
     }
 
     render() {
         return html `
         <div>
-            <status-bar></status-bar>
+            <status-bar scorehuman=${this.playerOneScore} scorecomputer=${this.playerTwoScore}></status-bar>
         </div>
         <div class="board">
             <viewer-option 
-                playername=${this.players.one.name}
-                selectimage=${this.players.one.response}
-                ?randomdisabled=${this.players.one.randomDisabled}>
+                playername=${this.playerOneName}
+                selectimage=${this.playerOneImage}
+                ?randomdisabled=${this.playerOneRandomDisabled}>
             </viewer-option>
             <img src="./images/vs.png" alt="">
             <viewer-option
-                playername=${this.players.two.name}
-                ?randomdisabled=${this.players.two.randomDisabled}>
+                playername=${this.playerTwoName}
+                ?randomdisabled=${this.playerTwoRandomDisabled}
+                @send-random-image="${this.getOptionComputer}">
             </viewer-option>
         </div>
         <div class="controls">
             ${this.images.map((element, index) => 
                 html `
-                    <button-options class="button-${index}" image="${element}" @button-option-event="${this.getOption}"></button-options>
+                    <button-options class="button-${index}" image="${element}" @button-option-event="${this.getOptionHuman}"></button-options>
                 `
             )}
+        </div>
+        <div class="modals">
+            <message-modal 
+                ?showmodal=${this.openModal}
+                ?winner=${this.winner}
+                @play-again="${this._resetGame}">
+            </message-modal>
         </div>
         `;
     }
 
-    getOption(ev){
-        debugger
-        console.info('getOption',ev);
+    getOptionHuman(ev) {
         let selectImage = this.convertResponse(ev.detail);
+        this.playerOneImage = selectImage;
+        this.playerTwoRandomDisabled = true;
+    }
 
-        this.players = {
 
-            one: {
-                name: 'Paco',
-                response: selectImage,
-                score: 0,
-                randomDisabled: true,
-            },
+    getOptionComputer(ev) {
+        let selectImage = ev.detail;
+        this.playerTwoImage = selectImage;
+        this.findWinner();
 
-            two: {
-                name: 'Computer',
-                response: '',
-                score: 0,
-                randomDisabled: true
-            }
-        }
+        console.info(`
+        *********************** player one *******************************
+        this.playerOneName ${this.playerOneName}
+        this.playerOneImage ${this.playerOneImage}
+        this.playerOneScore ${this.playerOneScore}
+        this.playerOneRandomDisabled ${this.playerOneRandomDisabled}
+        *********************** player two *******************************
+        this.playerTwoName ${this.playerTwoName}
+        this.playerTwoImage ${this.playerTwoImage}
+        this.playerTwoScore ${this.playerTwoScore}
+        this.playerTwoRandomDisabled ${this.playerTwoRandomDisabled}
+        ******************************************************************
+        `)
     }
 
     convertResponse(response) {
@@ -148,6 +175,116 @@ class battleField extends LitElement {
                 return 4;
                 break;
         }
+    }
+
+    findWinner() {
+        let playerOneResponse = this.playerOneImage;
+        let playerTwoResponse = this.playerTwoImage;
+        this.openModal = true;
+        switch(playerOneResponse) {
+            case 0:
+                //piedra 
+                if(playerTwoResponse == 2 || playerTwoResponse == 3) {
+                    console.info('gana player 1');
+                    this.playerOneScore++;
+                    this.winner = true;
+                } else if(playerTwoResponse === 0 ) {
+                    console.info('empate');
+                    this.playerOneScore++;
+                    this.playerTwoScore++;
+                    this.winner = true;
+                }else {
+                    console.info('gana player 2');
+                    this.playerTwoScore++;
+                    this.winner = false;
+                }
+                break;
+            case 1:
+                //papel
+                if(playerTwoResponse == 0 || playerTwoResponse == 4) {
+                    console.info('gana player 1');
+                    this.playerOneScore++;
+                    this.winner = true;
+                }else if(playerTwoResponse === 1 ) {
+                    console.info('empate');
+                    this.playerOneScore++;
+                    this.playerTwoScore++;
+                    this.winner = true;
+                } else {
+                    console.info('gana player 2');
+                    this.playerTwoScore++;
+                    this.winner = false;
+                }
+                break;
+            case 2:
+                //papel
+                if(playerTwoResponse == 3 || playerTwoResponse == 1) {
+                    console.info('gana player 1');
+                    this.playerOneScore++;
+                    this.winner = true;
+                } else if(playerTwoResponse === 2 ) {
+                    console.info('empate');
+                    this.playerOneScore++;
+                    this.playerTwoScore++;
+                    this.winner = true;
+                } else {
+                    console.info('gana player 2');
+                    this.playerTwoScore++;
+                    this.winner = false;
+                }
+                break;
+            case 3:
+                //papel
+                if(playerTwoResponse == 4 || playerTwoResponse == 1) {
+                    console.info('gana player 1');
+                    this.playerOneScore++;
+                    this.winner = true;
+                } else if(playerTwoResponse === 3 ) {
+                    console.info('empate');
+                    this.playerOneScore++;
+                    this.playerTwoScore++;
+                    this.winner = true;
+                } else {
+                    console.info('gana player 2');
+                    this.playerTwoScore++;
+                    this.winner = false;
+                }
+                break;
+            case 4:
+                //papel
+                if(playerTwoResponse == 2 || playerTwoResponse == 0) {
+                    console.info('gana player 1');
+                    this.playerOneScore++;
+                    this.winner = true;
+                } else if(playerTwoResponse === 4 ) {
+                    console.info('empate');
+                    this.playerOneScore++;
+                    this.playerTwoScore++;
+                    this.winner = true;
+                } else {
+                    console.info('gana player 2');
+                    this.playerTwoScore++;
+                    this.winner = false;
+                }
+                break;
+        }
+    }
+
+    _resetGame(){
+        console.info('reset game')
+        this.playerOneName = 'Paco'
+        this.playerOneImage = 0
+        this.playerOneRandomDisabled = true
+
+        this.playerTwoName = 'Computer'
+        this.playerTwoImage = 0
+        this.playerTwoRandomDisabled = false
+
+
+        this.images = ["piedra", "papel", "tijeras", "lagarto", "spock"]
+
+        this.openModal = false
+        this.winner = false
     }
     
 }

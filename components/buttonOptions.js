@@ -6,6 +6,11 @@ class ButtonOptions extends LitElement{
             img {
                 width: 120px;
                 height: 120px;
+                border-radius: 50%;
+            }
+            img:hover {
+                box-shadow: 0 4px 16px rgba(49, 138, 172, 1);
+                transition: all 0.2s ease;
             }
         `
     }

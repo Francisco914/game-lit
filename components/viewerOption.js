@@ -8,17 +8,19 @@ class viewerOption extends LitElement {
                 font-family: Arial;
                 text-align: center;
             }
+            img{
+                border-radius: 50%;
+            }
         `
     }
 
     static get properties() {
         return {
-
             playerName: {
                 type: String,
             },
 
-            randomDisabled: {
+            randomDisabled: { 
                 type: Boolean,
             },
 
@@ -41,13 +43,26 @@ class viewerOption extends LitElement {
         super();
         this.playerName = "Computer";
         this.randomDisabled = false;
-        this.response = "piedra"
         this.imageView = ["piedra", "papel", "tijeras", "lagarto", "spock"];
         this.pathImage = './images/';
         this.selectImage = 0;
-        this.loopImage();
+        this.loopImage()
     }
 
+    firstUpdated(properties){
+        console.info('ready',properties)
+    }
+
+    updated(changedProperties) {
+        console.info("updated properties")
+        changedProperties.forEach((oldValue, propName) => {
+            if(propName === 'randomDisabled'){
+                if(oldValue) {
+                    this.loopImage()
+                }
+            }
+        });
+    }
 
     render() {
         return html `
@@ -76,10 +91,17 @@ class viewerOption extends LitElement {
     }
 
     async loopImage() {
-        console.info(this.randomDisabled)
+        debugger
         while(!this.randomDisabled) {
             await this.timer();
             this.selectImage=Math.floor(Math.random() * (this.imageView.length - 0)) + 0;
+        }
+
+        if(this.randomDisabled) {
+            let image = this.selectImage;
+            this.dispatchEvent(new CustomEvent('send-random-image', {
+                detail: image
+            }));
         }
     }
 }
