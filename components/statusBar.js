@@ -4,13 +4,14 @@ class StatusBar extends LitElement{
     static get styles() {
         return css `
             div{
+                background-color: #1eb2a6;
                 display:grid;
                 grid-template-columns: 50% auto;
             }
 
             p{
                 font-size: 22px;
-                font-family: 'Bangers', cursive;
+                font-family: 'Lato', sans-serif;
                 justify-self: center;
                 align-self: center;
             }

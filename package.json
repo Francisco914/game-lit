@@ -9,6 +9,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "lit-element": "^2.2.1"
+    "lit-element": "^2.2.1",
+    "lit-media-query": "^1.0.7"
+  },
+  "devDependencies": {
+    "webpack": "^4.42.0",
+    "webpack-cli": "^3.3.11"
   }
 }

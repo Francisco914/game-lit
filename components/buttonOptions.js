@@ -4,8 +4,8 @@ class ButtonOptions extends LitElement{
     static get styles() {
         return css `
             img {
-                width: 120px;
-                height: 120px;
+                width: var(--button-options-width, 110px); 
+                height: var(--button-options-height, 110px); 
                 border-radius: 50%;
             }
             img:hover {

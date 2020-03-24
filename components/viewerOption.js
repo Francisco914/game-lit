@@ -1,14 +1,18 @@
 import {LitElement, html, css} from 'lit-element';
+import 'lit-media-query/lit-media-query.js';
 
 class viewerOption extends LitElement {
     static get styles() {
         return css `
             p{
-                color: white;
-                font-family: Arial;
+                color: black;
+                text-size: 18px;
+                font-family: 'Montserrat', sans-serif;
                 text-align: center;
             }
             img{
+                width: var(--viewer-option-width, 110px); 
+                height: var(--viewer-option-height, 110px); 
                 border-radius: 50%;
             }
         `
@@ -34,8 +38,7 @@ class viewerOption extends LitElement {
 
             selectImage: {
                 type: Number,
-            }
-
+            },
         }
     }
 
@@ -46,11 +49,10 @@ class viewerOption extends LitElement {
         this.imageView = ["piedra", "papel", "tijeras", "lagarto", "spock"];
         this.pathImage = './images/';
         this.selectImage = 0;
-        this.loopImage()
     }
 
-    firstUpdated(properties){
-        console.info('ready',properties)
+    firstUpdated(){
+        this.loopImage()
     }
 
     updated(changedProperties) {

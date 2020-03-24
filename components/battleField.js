@@ -3,36 +3,71 @@ import './viewerOption.js'
 import './buttonOptions.js'
 import './statusBar.js'
 import './messageModal.js'
+import 'lit-media-query/lit-media-query.js';
 
 class battleField extends LitElement {
     static get styles() {
         return css `
-            .board {
-                padding-top: 100px;
-                padding-bottom:100px;
-                background-image: url("./images/wallpaper.jpg");
+            .board.mobile-true {
+                background-color: #d4f8e8;
+                padding-top: 10px;
+                padding-bottom:10px;
+                //background-image: url("./images/wallpaper.jpg");
+                display:grid;
+                grid-template-rows: 40% 20% auto;
+            }
+
+            .board.mobile-true viewer-option,
+            .board.mobile-true img {
+                justify-self: center;
+                align-self: center;
+            }
+
+            .board.mobile-true img {
+                width: 200px;
+                height: 225px;
+            }
+
+            .controls.mobile-true {
+                background-color: #f67575;
+                padding-top:10px;
+                text-align: center;
+            }
+
+
+            .mobile-false {
+                --viewer-option-width: 180px;
+                --viewer-option-height: 180px;
+
+                --button-options-width: 125px;
+                --button-options-height: 125px;
+            }
+
+            .board.mobile-false {
+                background-color: #d4f8e8;
+                height:700px;
+                padding-top: 10px;
+                padding-bottom:10px;
+                //background-image: url("./images/wallpaper.jpg");
                 display:grid;
                 grid-template-columns: 40% 20% auto;
             }
 
-            .board viewer-option {
+            .board.mobile-false viewer-option,
+            .board.mobile-false img {
                 justify-self: center;
                 align-self: center;
-            } 
-            .board img {
-                width: 400px;
-                height: 500px;
             }
 
-            .controls {
-                display: grid;
-                grid-template-columns: repeat(15, 6.6%);
-                border: solid 2px;
+            .board.mobile-false img {
+                width: 200px;
+                height: 225px;
             }
 
-            .controls .button-0 {
-                grid-column-start: 6;
-                grid-column-end: 7;
+            .controls.mobile-false {
+                background-color: #f67575;
+                padding-top:10px;
+                text-align: center;
             }
 
         `
@@ -72,6 +107,15 @@ class battleField extends LitElement {
             },
             winner:{
                 type: Boolean,
+            },
+            draw:{
+                type: Boolean,
+            },
+            _query:{
+                type: String,
+            },
+            _isMobile: { 
+                type: Boolean 
             }
         }
     }
@@ -93,14 +137,20 @@ class battleField extends LitElement {
 
         this.openModal = false
         this.winner = false
+        this.draw = false
+
+        this._query = '(max-width: 600px)';
+        this._isMobile = false;
     }
 
     render() {
         return html `
+        <lit-media-query .query="${this._query}" @changed="${this._handleMediaQuery}"></lit-media-query>
+        <div>
         <div>
             <status-bar scorehuman=${this.playerOneScore} scorecomputer=${this.playerTwoScore}></status-bar>
         </div>
-        <div class="board">
+        <div class="board mobile-${this._isMobile} ${this._query}">
             <viewer-option 
                 playername=${this.playerOneName}
                 selectimage=${this.playerOneImage}
@@ -113,17 +163,19 @@ class battleField extends LitElement {
                 @send-random-image="${this.getOptionComputer}">
             </viewer-option>
         </div>
-        <div class="controls">
+        <div class="controls mobile-${this._isMobile}">
             ${this.images.map((element, index) => 
                 html `
                     <button-options class="button-${index}" image="${element}" @button-option-event="${this.getOptionHuman}"></button-options>
                 `
             )}
         </div>
+        </div>
         <div class="modals">
             <message-modal 
                 ?showmodal=${this.openModal}
                 ?winner=${this.winner}
+                ?draw=${this.draw} 
                 @play-again="${this._resetGame}">
             </message-modal>
         </div>
@@ -192,7 +244,8 @@ class battleField extends LitElement {
                     console.info('empate');
                     this.playerOneScore++;
                     this.playerTwoScore++;
-                    this.winner = true;
+                    this.winner = false;
+                    this.draw = true;
                 }else {
                     console.info('gana player 2');
                     this.playerTwoScore++;
@@ -209,7 +262,8 @@ class battleField extends LitElement {
                     console.info('empate');
                     this.playerOneScore++;
                     this.playerTwoScore++;
-                    this.winner = true;
+                    this.winner = false;
+                    this.draw = true;
                 } else {
                     console.info('gana player 2');
                     this.playerTwoScore++;
@@ -226,7 +280,8 @@ class battleField extends LitElement {
                     console.info('empate');
                     this.playerOneScore++;
                     this.playerTwoScore++;
-                    this.winner = true;
+                    this.winner = false;
+                    this.draw = true;
                 } else {
                     console.info('gana player 2');
                     this.playerTwoScore++;
@@ -243,7 +298,8 @@ class battleField extends LitElement {
                     console.info('empate');
                     this.playerOneScore++;
                     this.playerTwoScore++;
-                    this.winner = true;
+                    this.winner = false;
+                    this.draw = true;
                 } else {
                     console.info('gana player 2');
                     this.playerTwoScore++;
@@ -260,7 +316,8 @@ class battleField extends LitElement {
                     console.info('empate');
                     this.playerOneScore++;
                     this.playerTwoScore++;
-                    this.winner = true;
+                    this.winner = false;
+                    this.draw = true;
                 } else {
                     console.info('gana player 2');
                     this.playerTwoScore++;
@@ -285,8 +342,12 @@ class battleField extends LitElement {
 
         this.openModal = false
         this.winner = false
+        this.draw = false
     }
-    
+   
+    _handleMediaQuery(event) {
+        this._isMobile = event.detail.value;
+    }
 }
 
 customElements.define('battle-field', battleField)
