@@ -30,7 +30,7 @@ class ButtonOptions extends LitElement{
     constructor() {
         super();
         this.image = 'piedra'
-        this.pathImage = './images/';
+        this.pathImage = './img/';
     }
 
     render() {

@@ -118,7 +118,7 @@ class MessageModal extends LitElement{
             <lit-media-query .query="${this._query}" @changed="${this._handleMediaQuery}"></lit-media-query>
             <div class="modal show-${this.showModal}">
                 <div class="modal-content mobile-${this._isMobile}">
-                    <img class="winner" src="./images/winner.png">
+                    <img class="winner" src="./img/winner.png">
                     <p class="title">Muy bien ¡le ganaste a una computadora!</p>
                     <p class="message">¿Quieres jugar de nuevo?</p>
                     <button @click=${this.playAgain}>Volver a jugar</button>
@@ -130,7 +130,7 @@ class MessageModal extends LitElement{
                 <lit-media-query .query="${this._query}" @changed="${this._handleMediaQuery}"></lit-media-query>
                 <div class="modal show-${this.showModal}">
                     <div class="modal-content mobile-${this._isMobile}">
-                        <img class="gameover" src="./images/draw.jpg">
+                        <img class="gameover" src="./img/draw.jpg">
                         <p class="title">Has empatado con una computadora</p>
                         <p class="message">¿Quieres jugar de nuevo?</p>
                         <button @click=${this.playAgain}>Volver a jugar</button>
@@ -141,7 +141,7 @@ class MessageModal extends LitElement{
                 <lit-media-query .query="${this._query}" @changed="${this._handleMediaQuery}"></lit-media-query>
                 <div class="modal show-${this.showModal}">
                     <div class="modal-content mobile-${this._isMobile}">
-                        <img class="gameover" src="./images/gameover.png">
+                        <img class="gameover" src="./img/gameover.png">
                         <p class="title">Te ha ganado un ser inanimado</p>
                         <p class="message">¿Quieres jugar de nuevo?</p>
                         <button @click=${this.playAgain}>Volver a jugar</button>

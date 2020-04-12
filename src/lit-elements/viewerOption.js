@@ -47,7 +47,7 @@ class viewerOption extends LitElement {
         this.playerName = "Computer";
         this.randomDisabled = false;
         this.imageView = ["piedra", "papel", "tijeras", "lagarto", "spock"];
-        this.pathImage = './images/';
+        this.pathImage = './img/';
         this.selectImage = 0;
     }
 

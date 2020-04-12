@@ -12,7 +12,6 @@ class battleField extends LitElement {
                 background-color: #d4f8e8;
                 padding-top: 10px;
                 padding-bottom:10px;
-                //background-image: url("./images/wallpaper.jpg");
                 display:grid;
                 grid-template-rows: 40% 20% auto;
             }
@@ -48,7 +47,6 @@ class battleField extends LitElement {
                 height:700px;
                 padding-top: 10px;
                 padding-bottom:10px;
-                //background-image: url("./images/wallpaper.jpg");
                 display:grid;
                 grid-template-columns: 40% 20% auto;
             }
@@ -156,7 +154,7 @@ class battleField extends LitElement {
                 selectimage=${this.playerOneImage}
                 ?randomdisabled=${this.playerOneRandomDisabled}>
             </viewer-option>
-            <img src="./images/vs.png" alt="">
+            <img src="./img/vs.png" alt="">
             <viewer-option
                 playername=${this.playerTwoName}
                 ?randomdisabled=${this.playerTwoRandomDisabled}
