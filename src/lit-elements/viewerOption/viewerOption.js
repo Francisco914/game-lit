@@ -1,21 +1,12 @@
 import {LitElement, html, css} from 'lit-element';
+import {viewerOptionStyles} from './viewerOptionStyles'
 import 'lit-media-query/lit-media-query.js';
 
 class viewerOption extends LitElement {
-    static get styles() {
-        return css `
-            p{
-                color: black;
-                text-size: 18px;
-                font-family: 'Montserrat', sans-serif;
-                text-align: center;
-            }
-            img{
-                width: var(--viewer-option-width, 110px); 
-                height: var(--viewer-option-height, 110px); 
-                border-radius: 50%;
-            }
-        `
+    static get shadyStyles() {
+        return `
+            ${viewerOptionStyles.cssText}
+        `;
     }
 
     static get properties() {
@@ -68,6 +59,7 @@ class viewerOption extends LitElement {
 
     render() {
         return html `
+            <style>${this.constructor.shadyStyles}</style>
             ${this.randomDisabled?
                 html `
                 <div>

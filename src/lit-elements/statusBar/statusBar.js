@@ -1,21 +1,11 @@
 import {LitElement, html, css} from 'lit-element';
+import {statusBarStyles} from './statusBarStyles'
 
 class StatusBar extends LitElement{
-    static get styles() {
-        return css `
-            div{
-                background-color: #1eb2a6;
-                display:grid;
-                grid-template-columns: 50% auto;
-            }
-
-            p{
-                font-size: 22px;
-                font-family: 'Lato', sans-serif;
-                justify-self: center;
-                align-self: center;
-            }
-        `
+    static get shadyStyles() {
+        return `
+            ${statusBarStyles.cssText}
+        `;
     }
 
     static get properties() {
@@ -38,6 +28,7 @@ class StatusBar extends LitElement{
 
     render() {
         return html `
+            <style>${this.constructor.shadyStyles}</style>
             <div> 
                 <p>Human: ${this.scoreHuman}</p>
                 <p>Computer: ${this.scoreComputer}</p>

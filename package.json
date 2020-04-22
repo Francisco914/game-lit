@@ -12,7 +12,8 @@
   "license": "ISC",
   "dependencies": {
     "lit-element": "^2.2.1",
-    "lit-media-query": "^1.0.7"
+    "lit-media-query": "^1.0.7",
+    "lit-element-media-query": "git+ssh://git@github.com/Francisco914/lit-element-media-query.git#master"
   },
   "devDependencies": {
     "@webcomponents/webcomponentsjs": "^2.4.3",

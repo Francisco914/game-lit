@@ -1,18 +1,11 @@
 import {LitElement, html, css} from 'lit-element';
+import {buttonOptionsStyles} from './buttonOptionsStyles'
 
 class ButtonOptions extends LitElement{
-    static get styles() {
-        return css `
-            img {
-                width: var(--button-options-width, 110px); 
-                height: var(--button-options-height, 110px); 
-                border-radius: 50%;
-            }
-            img:hover {
-                box-shadow: 0 4px 16px rgba(49, 138, 172, 1);
-                transition: all 0.2s ease;
-            }
-        `
+    static get shadyStyles() {
+        return `
+            ${buttonOptionsStyles.cssText}
+        `;
     }
 
     static get properties() {
@@ -35,6 +28,7 @@ class ButtonOptions extends LitElement{
 
     render() {
         return html `
+            <style>${this.constructor.shadyStyles}</style>
             <img id="${this.image}" src="${this.pathImage}${this.image}.png" @click="${this.selectOption}">
         `
     }

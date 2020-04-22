@@ -1,6 +1,6 @@
-import './lit-elements/statusBar.js';
-import './lit-elements/buttonOptions.js';
-import './lit-elements/battleField.js';
+import './lit-elements/statusBar/statusBar.js';
+import './lit-elements/buttonOptions/buttonOptions.js';
+import './lit-elements/battleField/battleField.js';
 
 window.addEventListener('load', () => {
     // Whatever

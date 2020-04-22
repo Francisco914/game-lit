@@ -1,74 +1,15 @@
-import {LitElement, html, css} from 'lit-element';
-import './viewerOption.js'
-import './buttonOptions.js'
-import './statusBar.js'
-import './messageModal.js'
-import 'lit-media-query/lit-media-query.js';
+import {LitElement, html} from 'lit-element';
+import {battleFieldStyles} from './battleFieldStyles.js';
+import '../viewerOption/viewerOption.js'
+import '../buttonOptions/buttonOptions.js'
+import '../statusBar/statusBar.js'
+import '../messageModal/messageModal.js'
 
 class battleField extends LitElement {
-    static get styles() {
-        return css `
-            .board.mobile-true {
-                background-color: #d4f8e8;
-                padding-top: 10px;
-                padding-bottom:10px;
-                display:grid;
-                grid-template-rows: 40% 20% auto;
-            }
-
-            .board.mobile-true viewer-option,
-            .board.mobile-true img {
-                justify-self: center;
-                align-self: center;
-            }
-
-            .board.mobile-true img {
-                width: 200px;
-                height: 225px;
-            }
-
-            .controls.mobile-true {
-                background-color: #f67575;
-                padding-top:10px;
-                text-align: center;
-            }
-
-
-            .mobile-false {
-                --viewer-option-width: 180px;
-                --viewer-option-height: 180px;
-
-                --button-options-width: 125px;
-                --button-options-height: 125px;
-            }
-
-            .board.mobile-false {
-                background-color: #d4f8e8;
-                height:700px;
-                padding-top: 10px;
-                padding-bottom:10px;
-                display:grid;
-                grid-template-columns: 40% 20% auto;
-            }
-
-            .board.mobile-false viewer-option,
-            .board.mobile-false img {
-                justify-self: center;
-                align-self: center;
-            }
-
-            .board.mobile-false img {
-                width: 200px;
-                height: 225px;
-            }
-
-            .controls.mobile-false {
-                background-color: #f67575;
-                padding-top:10px;
-                text-align: center;
-            }
-
-        `
+    static get shadyStyles() {
+        return `
+            ${battleFieldStyles.cssText}
+        `;
     }
     
     static get properties() {
@@ -109,11 +50,13 @@ class battleField extends LitElement {
             draw:{
                 type: Boolean,
             },
-            _query:{
-                type: String,
+
+            breakPoints: {
+                type: Array,
             },
-            _isMobile: { 
-                type: Boolean 
+
+            size: {
+                type: String
             }
         }
     }
@@ -136,40 +79,41 @@ class battleField extends LitElement {
         this.openModal = false
         this.winner = false
         this.draw = false
-
-        this._query = '(max-width: 600px)';
-        this._isMobile = false;
     }
 
     render() {
         return html `
-        <lit-media-query .query="${this._query}" @changed="${this._handleMediaQuery}"></lit-media-query>
-        <div>
-        <div>
-            <status-bar scorehuman=${this.playerOneScore} scorecomputer=${this.playerTwoScore}></status-bar>
+        <style>${this.constructor.shadyStyles}</style>
+
+        <div class="container">
+            <div class="statusBar">
+                <status-bar scorehuman=${this.playerOneScore} scorecomputer=${this.playerTwoScore}></status-bar>
+            </div>
+
+            <div class="board">
+                <viewer-option 
+                    playername=${this.playerOneName}
+                    selectimage=${this.playerOneImage}
+                    ?randomdisabled=${this.playerOneRandomDisabled}>
+                </viewer-option>
+                <img src="./img/vs.png" alt="">
+                <viewer-option
+                    playername=${this.playerTwoName}
+                    ?randomdisabled=${this.playerTwoRandomDisabled}
+                    @send-random-image="${this.getOptionComputer}">
+                </viewer-option>
+            </div>
+
+            <div class="control">
+                ${this.images.map((element, index) => 
+                    html `
+                        <button-options class="button-${index}" image="${element}" @button-option-event="${this.getOptionHuman}"></button-options>
+                    `
+                )}
+            </div>
         </div>
-        <div class="board mobile-${this._isMobile} ${this._query}">
-            <viewer-option 
-                playername=${this.playerOneName}
-                selectimage=${this.playerOneImage}
-                ?randomdisabled=${this.playerOneRandomDisabled}>
-            </viewer-option>
-            <img src="./img/vs.png" alt="">
-            <viewer-option
-                playername=${this.playerTwoName}
-                ?randomdisabled=${this.playerTwoRandomDisabled}
-                @send-random-image="${this.getOptionComputer}">
-            </viewer-option>
-        </div>
-        <div class="controls mobile-${this._isMobile}">
-            ${this.images.map((element, index) => 
-                html `
-                    <button-options class="button-${index}" image="${element}" @button-option-event="${this.getOptionHuman}"></button-options>
-                `
-            )}
-        </div>
-        </div>
-        <div class="modals">
+
+        <div class="modal">
             <message-modal 
                 ?showmodal=${this.openModal}
                 ?winner=${this.winner}
@@ -345,6 +289,11 @@ class battleField extends LitElement {
    
     _handleMediaQuery(event) {
         this._isMobile = event.detail.value;
+    }
+
+    _changeSize(event) {
+        console.info(event);
+        this.size = event.detail;
     }
 }
 
