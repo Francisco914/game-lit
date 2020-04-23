@@ -44,20 +44,22 @@ class battleField extends LitElement {
             openModal:{
                 type: Boolean,
             },
+
             winner:{
                 type: Boolean,
             },
+
             draw:{
                 type: Boolean,
             },
 
-            breakPoints: {
-                type: Array,
+            welcomeMessage:{
+                type: Boolean,
             },
 
-            size: {
-                type: String
-            }
+            openModalWelcome: {
+                type: Boolean,
+            },
         }
     }
 
@@ -79,6 +81,8 @@ class battleField extends LitElement {
         this.openModal = false
         this.winner = false
         this.draw = false
+        this.openModalWelcome = true;
+        this.welcomeMessage = true;
     }
 
     render() {
@@ -119,6 +123,13 @@ class battleField extends LitElement {
                 ?winner=${this.winner}
                 ?draw=${this.draw} 
                 @play-again="${this._resetGame}">
+            </message-modal>
+        </div>
+
+        <div class="modal">
+            <message-modal 
+                ?showmodal=${this.openModalWelcome}
+                ?welcomemessage=${this.welcomeMessage}>
             </message-modal>
         </div>
         `;
@@ -285,6 +296,8 @@ class battleField extends LitElement {
         this.openModal = false
         this.winner = false
         this.draw = false
+        this.welcomeMessage = false;
+        this.openModalWelcome = false;
     }
    
     _handleMediaQuery(event) {

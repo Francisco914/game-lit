@@ -31,7 +31,7 @@ export const messageModalStyles = css`
     padding: 30px;
     border: 1px solid #888;
     width: 90vw;
-    height: 80vh;
+    height: 83vh;
     text-align:center;
 }
 
@@ -40,6 +40,13 @@ export const messageModalStyles = css`
     display: grid;
     grid-template-columns: 100%;
     grid-template-rows: 28% 30% 30% 12%;
+}
+
+.containerWelcome {
+    height: 100%;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 28% 60% 12%;
 }
 
 img {
@@ -75,6 +82,40 @@ button {
     border: 0;
     justify-self: center;
     align-self: center;
+}
+
+h1{
+    font-size: 22px;
+    font-family: 'Lato', sans-serif;
+}
+
+h2 {
+    font-size: 20px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+h3 {
+    font-size: 18px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.instructions {
+    height: 100%;
+    display: grid;
+    grid-template-columns: 50% auto;
+    grid-template-rows: 30% 30% auto;
+    column-gap: 10px;
+    row-gap: 15px;
+}
+
+.image {
+    border-radius: 50%;
+    width: 50px;
+}
+
+.messages {
+    font-size: 12px;
+    font-family: 'Montserrat', sans-serif;
 }
 
 @media(min-width: 600px) {
